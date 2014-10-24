@@ -25,6 +25,24 @@ angular.module('cpuwebkitApp')
 
     var colors = ['steelblue', 'green', 'red', 'orange'];
 
+	var exec = require('child_process').exec;
+	exec('tasklist /V /FO CSV ', function(err, stdout, stderr) {
+	  // stdout is a string containing the output of the command.
+	  // parse it and look for the apache and mysql processes.
+	  var lines = stdout.split('\n'),
+	  	processes = [];
+	  for(var i=0; i<lines.length; i++){
+	  	processes.push(lines[i].split('",').map(function(e){
+	  		return e.replace(/"/gi,'');
+	  	}));
+	  }
+	  console.log(processes);
+
+
+	  $scope.processes = processes;
+
+	  //console.log(stdout);
+	});
 
     //unix
     //os.harddrive();
